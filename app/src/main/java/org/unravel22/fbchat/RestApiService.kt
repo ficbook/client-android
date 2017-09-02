@@ -1,8 +1,9 @@
 package org.unravel22.fbchat
 
-import android.accounts.Account
+import org.unravel22.fbchat.models.Account
+import org.unravel22.fbchat.models.Credentials
 import retrofit2.Call
-import retrofit2.http.Field
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 
@@ -13,5 +14,5 @@ import retrofit2.http.POST
 interface RestApiService {
 
     @POST("users/sign_in")
-    fun signIn(@Field("login") login: String, @Field("password") password: String): Call<Account>
+    fun signIn(@Body credentials: Credentials): Call<Account>
 }

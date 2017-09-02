@@ -12,7 +12,7 @@ class ChatApplication: Application() {
 
     val restService: RestApiService by lazy {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://TODO/")
+                .baseUrl("http://192.168.0.105:7070")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         retrofit.create(RestApiService::class.java)

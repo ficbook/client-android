@@ -1,13 +1,15 @@
 package org.unravel22.fbchat.ui.activities
 
-import android.accounts.Account
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.widget.Button
-import android.widget.FrameLayout
+import android.widget.CheckBox
+import android.widget.ProgressBar
 import com.arellomobile.mvp.MvpAppCompatActivity
 import org.unravel22.fbchat.ChatApplication
 import org.unravel22.fbchat.R
+import org.unravel22.fbchat.models.Account
+import org.unravel22.fbchat.models.Credentials
 import org.unravel22.fbchat.mvp.views.SignInView
 import org.unravel22.fbchat.ui.*
 import retrofit2.Call
@@ -22,35 +24,37 @@ class SignInActivity : MvpAppCompatActivity(), SignInView, Callback<Account> {
     val editLogin: TextInputEditText by view(R.id.edit_login)
     val editPassword: TextInputEditText by view(R.id.edit_password)
     val btnSignIn: Button by view(R.id.btn_signin)
-    val containerProgress: FrameLayout by view(R.id.container_progress)
+    val progressBar: ProgressBar by view(R.id.progressBar)
+    val checkBoxAgree: CheckBox by view(R.id.check_agree)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
+        setSupportActionBar(R.id.toolbar)
         btnSignIn.setOnClickListener { signIn() }
     }
 
     override fun signIn() {
-        val call = (application as ChatApplication).restService.signIn(
+        val call = (application as ChatApplication).restService.signIn(Credentials(
                 editLogin.trimmedText,
                 editPassword.trimmedText
-        )
-        containerProgress.show()
+        ))
+        progressBar.show()
         call.enqueue(this)
     }
 
     override fun onResponse(call: Call<Account>?, response: Response<Account>?) {
-        containerProgress.gone()
-        if (response?.isSuccessful ?: false) {
-            val account = response!!.body()
-
+        progressBar.gone()
+        if (response?.isSuccessful == true) {
+            val account = response.body()
+            editPassword.shortSnackbar(account?.token ?: "null")
         } else {
-            btnSignIn.shortSnackbar(response?.message() ?: "error")
+            editPassword.error = response?.message() ?: "error"
         }
     }
 
     override fun onFailure(call: Call<Account>?, t: Throwable?) {
-        containerProgress.gone()
+        progressBar.gone()
         btnSignIn.shortSnackbar(t?.message ?: "error")
     }
 }
