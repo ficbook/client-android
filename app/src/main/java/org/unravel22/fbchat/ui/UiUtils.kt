@@ -16,13 +16,11 @@ import android.widget.EditText
 val EditText.trimmedText: String
     get() = this.text.toString().trim()
 
-fun View.show() {
-    this.visibility = View.VISIBLE
-}
-
-fun View.gone() {
-    this.visibility = View.GONE
-}
+var View.visible: Boolean
+    get() = this.visibility == View.VISIBLE
+    set(value) {
+        this.visibility = if (value) View.VISIBLE else View.GONE
+    }
 
 fun View.shortSnackbar(@StringRes text: Int) {
     Snackbar.make(this, text, Snackbar.LENGTH_SHORT).show()

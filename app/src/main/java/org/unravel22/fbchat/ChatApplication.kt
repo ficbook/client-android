@@ -1,8 +1,8 @@
 package org.unravel22.fbchat
 
 import android.app.Application
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
+
 
 
 /**
@@ -10,11 +10,16 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class ChatApplication: Application() {
 
-    val restService: RestApiService by lazy {
-        val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.0.105:7070")
-                .addConverterFactory(GsonConverterFactory.create())
+    companion object {
+
+        @JvmStatic lateinit var graph: AppComponent
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        graph = DaggerAppComponent.builder()
+                .retrofitModule(RetrofitModule())
                 .build()
-        retrofit.create(RestApiService::class.java)
     }
 }
