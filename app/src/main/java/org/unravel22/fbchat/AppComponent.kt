@@ -10,7 +10,7 @@ import javax.inject.Singleton
 /**
  * Created by admin on 05.09.17.
  */
-
+@Singleton
 @Component(modules = arrayOf(RetrofitModule::class))
 interface AppComponent {
 
@@ -20,13 +20,12 @@ interface AppComponent {
 @Module
 class RetrofitModule {
 
-    private val builder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-
     @Provides
     @Singleton
     internal fun provideRestService(): RestApiService {
-        return builder.baseUrl("http://192.168.0.105:7070")
+        return Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://192.168.0.105:7070")
                 .build()
                 .create(RestApiService::class.java)
     }

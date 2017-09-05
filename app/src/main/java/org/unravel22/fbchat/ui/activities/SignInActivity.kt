@@ -32,11 +32,9 @@ class SignInActivity : MvpAppCompatActivity(), SignInView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
         setSupportActionBar(R.id.toolbar)
-        btnSignIn.setOnClickListener { presenter.signIn() }
-    }
-
-    override fun getCredentials(): Credentials {
-        return Credentials(editLogin.trimmedText, editPassword.text.toString())
+        btnSignIn.setOnClickListener {
+            presenter.signIn(Credentials(editLogin.trimmedText, editPassword.text.toString()))
+        }
     }
 
     override fun setIsInProgress(progress: Boolean) {

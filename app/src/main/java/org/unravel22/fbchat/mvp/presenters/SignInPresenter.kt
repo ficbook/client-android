@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import org.unravel22.fbchat.ChatApplication
 import org.unravel22.fbchat.models.Account
+import org.unravel22.fbchat.models.Credentials
 import org.unravel22.fbchat.mvp.views.SignInView
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,8 +24,8 @@ class SignInPresenter: MvpPresenter<SignInView>(), Callback<Account> {
             }
         }
 
-    fun signIn() {
-        val call = ChatApplication.graph.getRestService().signIn(viewState.getCredentials())
+    fun signIn(credentials: Credentials) {
+        val call = ChatApplication.graph.getRestService().signIn(credentials)
         isInProgress = true
         call.enqueue(this)
     }

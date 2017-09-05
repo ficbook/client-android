@@ -4,15 +4,12 @@ import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import org.unravel22.fbchat.models.Account
-import org.unravel22.fbchat.models.Credentials
 
 /**
  * Created by admin on 01.09.17.
  */
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface SignInView : MvpView {
-
-    fun getCredentials(): Credentials
 
     fun setIsInProgress(progress: Boolean)
 
